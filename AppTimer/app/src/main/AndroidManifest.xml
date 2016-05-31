@@ -21,6 +21,9 @@
         </activity>
 
         <service android:name=".TimerIntentService" />
+        <service android:name=".ShowMainIntentService" />
+
+
         <receiver android:name=".TimerReceiver">
             <intent-filter>
                 <action android:name="TIMER_FINISHED"/>
@@ -28,5 +31,4 @@
         </receiver>
 
     </application>
-
 </manifest>
