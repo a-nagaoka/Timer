@@ -12,7 +12,8 @@ import android.content.Intent;
 public class TimerReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        Intent alertIntent = new Intent(context, AlertDialogActivity.class);
+        //Intent alertIntent = new Intent(context, AlertDialogActivity.class);
+        Intent alertIntent = new Intent(context, NoticeActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, alertIntent, 0);
 
         try {

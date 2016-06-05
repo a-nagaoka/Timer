@@ -20,7 +20,9 @@ public class TimerIntentService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
 
-        SystemClock.sleep(10000);
+        int time = intent.getIntExtra("WAIT_TIME", 20);
+
+        SystemClock.sleep(time * 60 * 1000);
 
         Intent timerFinishedIntent = new Intent();
         timerFinishedIntent.setAction("TIMER_FINISHED");

@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">AppTimer</string>
+    <string name="appTimerDescription">こどもに使わせる時間を入力してください。</string>
+    <string name="start">スタート</string>
+    <string name="setMinutes">設定時間(分)</string>
+    <string name="statusStarted">タイマーを開始しました。%1$d分後にお知らせします。</string>
+    <string name="statusStopped">タイマー停止中</string>
+    <string name="stop">ストップ</string>
+    <string name="messageStarted">タイマーを開始しました。%1$d分後にお知らせします。</string>
+    <string name="messageFinished">またね！</string>
+    <string name="timeFormat">%1$d分</string>
 </resources>
