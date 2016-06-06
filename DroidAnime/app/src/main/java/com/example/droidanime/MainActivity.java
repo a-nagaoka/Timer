@@ -1,11 +1,7 @@
 package com.example.droidanime;
 
-import android.animation.ObjectAnimator;
-import android.animation.PropertyValuesHolder;
-import android.graphics.Point;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Display;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -22,10 +18,39 @@ public class MainActivity extends AppCompatActivity {
         */
 
         // ObjectAnimator を使う編
+        /*
         setContentView(R.layout.activity_main);
         doAnimation();
+        */
+
+
+        // ドラッグする画像にリスナー登録
+        setContentView(R.layout.drag_activity);
+        setTouchListener((ImageView) findViewById(R.id.rice));
+        setTouchListener((ImageView) findViewById(R.id.miso_soup));
+        setTouchListener((ImageView) findViewById(R.id.friedchicken));
     }
 
+    /**
+     * 指定のビューにタッチイベントのリスナーを登録します。
+     *
+     * @param dragView
+     */
+    private void setTouchListener(ImageView dragView) {
+        DragViewListener listener = new DragViewListener(dragView);
+        dragView.setOnTouchListener(listener);
+    }
+
+    /**
+     * いただきますボタンタップ時のイベント処理
+     * @param view
+     */
+    public void onClickStartButton(View view) {
+        // タイマー開始
+    }
+
+    /** 以下はドロイドアニメ用の実装 **/
+    /*
     private void doAnimation() {
         ImageView img = (ImageView) findViewById(R.id.droid1);
 
@@ -36,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
         // X方向に移動するアニメ
         float toX =  getDisplayWidth() - img.getWidth()*2;
-        ObjectAnimator translate = ObjectAnimator.ofFloat(img, "translationX", 0f, 300f);
+        ObjectAnimator translate = ObjectAnimator.ofFloat(img, "translationX", 0f, toX);
         translate.setDuration(5000);
         translate.start();
 
@@ -53,33 +78,5 @@ public class MainActivity extends AppCompatActivity {
         display.getSize(point);
         return point.x;
     }
-
-
-    /**
-     * 2秒かけて引数に与えた角度と距離の位置に回転させながらターゲットを移動させる
-     *
-     * @param target
-     * @param degree
-     * @param distance
-     */
-    private void animatePropertyValuesHolderSample( ImageView target, float degree, float distance ) {
-
-        // 距離と角度から到達点となるX座標、Y座標を求めます
-        float toX = (float) ( distance * Math.cos( Math.toRadians( degree ) ) );
-        float toY = (float) ( distance * Math.sin( Math.toRadians( degree ) ) );
-
-        // translationXプロパティを0fからtoXに変化させます
-        PropertyValuesHolder holderX = PropertyValuesHolder.ofFloat( "translationX", 0f, toX );
-        // translationYプロパティを0fからtoYに変化させます
-        PropertyValuesHolder holderY = PropertyValuesHolder.ofFloat( "translationY", 0f, toY );
-        // rotationプロパティを0fから360fに変化させます
-        PropertyValuesHolder holderRotaion = PropertyValuesHolder.ofFloat( "rotation", 0f, 360f );
-
-        // targetに対してholderX, holderY, holderRotationを同時に実行させます
-        ObjectAnimator objectAnimator = ObjectAnimator.ofPropertyValuesHolder(
-                target, holderX, holderY, holderRotaion );
-
-        // 2秒かけて実行させます
-        objectAnimator.setDuration( 2000 );
-
-    }}
+*/
+}
