@@ -29,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
         setTouchListener((ImageView) findViewById(R.id.rice));
         setTouchListener((ImageView) findViewById(R.id.miso_soup));
         setTouchListener((ImageView) findViewById(R.id.friedchicken));
+        setTouchListener((ImageView) findViewById(R.id.gomaae));
+        setTouchListener((ImageView) findViewById(R.id.potate_salada));
     }
 
     /**
