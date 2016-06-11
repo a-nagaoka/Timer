@@ -8,6 +8,8 @@ import android.widget.ImageView;
  * Created by rika on 2016/06/04.
  */
 public class DragViewListener implements View.OnTouchListener {
+    // 配置する場所
+    private ImageView baseView;
     // ドラッグ対象のビュー
     private ImageView dragView;
     // ドラッグ中の移動量
@@ -18,7 +20,8 @@ public class DragViewListener implements View.OnTouchListener {
      * コンストラクタ
      * @param dragView
      */
-    public DragViewListener(ImageView dragView) {
+    public DragViewListener(ImageView baseView, ImageView dragView) {
+        this.baseView = baseView;
         this.dragView = dragView;
     }
 

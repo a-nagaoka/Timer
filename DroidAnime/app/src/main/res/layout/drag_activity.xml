@@ -7,7 +7,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="684dp">
+        android:layout_height="725dp">
 
         <ImageView
             android:layout_width="match_parent"
@@ -60,19 +60,40 @@
             android:id="@+id/potate_salada"
             android:layout_alignParentStart="true"
             android:src="@drawable/food_potato_sald"
-            android:layout_above="@+id/table"
             android:layout_toStartOf="@+id/friedchicken"
-            android:layout_below="@+id/rice" />
+            android:layout_below="@+id/rice"
+            android:layout_alignBottom="@+id/gomaae" />
 
     </RelativeLayout>
 
-    <Button
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="119dp"
-        android:text="@string/start_eating"
-        android:id="@+id/button"
-        android:onClick="onClickStartButton"
-        android:enabled="false" />
+        android:layout_height="match_parent">
+
+        <Button
+            android:layout_width="256dp"
+            android:layout_height="109dp"
+            android:text="@string/start_eating"
+            android:id="@+id/btnStart"
+            android:onClick="onStartButtonTapped"
+            android:enabled="true"
+            android:textStyle="bold"
+            android:textSize="32dp"
+            android:layout_weight="1" />
+
+        <Button
+            android:layout_width="231dp"
+            android:layout_height="match_parent"
+            android:text="@string/end_eating"
+            android:id="@+id/btnEnd"
+            android:layout_gravity="right"
+            android:textStyle="bold"
+            android:textSize="32dp"
+            android:layout_weight="1"
+            android:onClick="onEndButtonTapped" />
+    </LinearLayout>
+
 </LinearLayout>
 
 
