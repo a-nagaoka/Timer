@@ -2,53 +2,98 @@
 <LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:weightSum="1">
 
-    <FrameLayout
-        android:orientation="horizontal"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="735dp">
+        android:layout_height="725dp">
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/table"
             android:src="@drawable/wood"
-            android:layout_gravity="left|top" />
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/gomaae" />
 
         <ImageView
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:id="@+id/rice"
-            android:src="@drawable/food_gohan_hakumai"/>
-
-        <ImageView
-            android:layout_width="145dp"
-            android:layout_height="132dp"
-            android:id="@+id/friedchicken"
-            android:src="@drawable/food_karaage_lemon"
-            android:layout_gravity="center_horizontal" />
+            android:src="@drawable/food_gohan_hakumai"
+            android:layout_alignBottom="@+id/friedchicken"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true" />
 
         <ImageView
             android:layout_width="109dp"
             android:layout_height="164dp"
             android:id="@+id/miso_soup"
             android:src="@drawable/food_omisoshiru"
-            android:layout_weight="0.07"
+            android:layout_gravity="right|top"
+            android:layout_alignBottom="@+id/friedchicken"
+            android:layout_alignEnd="@+id/gomaae" />
+
+        <ImageView
+            android:layout_width="145dp"
+            android:layout_height="132dp"
+            android:id="@+id/friedchicken"
+            android:src="@drawable/food_karaage_lemon"
+            android:layout_gravity="center_horizontal|top"
             android:layout_alignParentTop="true"
-            android:layout_toEndOf="@+id/button"
-            android:layout_marginStart="113dp"
-            android:layout_gravity="right|top" />
+            android:layout_centerHorizontal="true" />
 
-    </FrameLayout>
+        <ImageView
+            android:layout_width="145dp"
+            android:layout_height="132dp"
+            android:id="@+id/gomaae"
+            android:src="@drawable/food_hourensou_gomaae"
+            android:layout_gravity="left|top"
+            android:layout_below="@+id/rice"
+            android:layout_alignParentEnd="true" />
 
-    <Button
+        <ImageView
+            android:layout_width="140dp"
+            android:layout_height="108dp"
+            android:id="@+id/potate_salada"
+            android:layout_alignParentStart="true"
+            android:src="@drawable/food_potato_sald"
+            android:layout_toStartOf="@+id/friedchicken"
+            android:layout_below="@+id/rice"
+            android:layout_alignBottom="@+id/gomaae" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/start_eating"
-        android:id="@+id/button"
-        android:layout_gravity="bottom"
-        android:onClick="onClickStartButton"/>
+        android:layout_height="match_parent">
+
+        <Button
+            android:layout_width="256dp"
+            android:layout_height="109dp"
+            android:text="@string/start_eating"
+            android:id="@+id/btnStart"
+            android:onClick="onStartButtonTapped"
+            android:enabled="true"
+            android:textStyle="bold"
+            android:textSize="32dp"
+            android:layout_weight="1" />
+
+        <Button
+            android:layout_width="231dp"
+            android:layout_height="match_parent"
+            android:text="@string/end_eating"
+            android:id="@+id/btnEnd"
+            android:layout_gravity="right"
+            android:textStyle="bold"
+            android:textSize="32dp"
+            android:layout_weight="1"
+            android:onClick="onEndButtonTapped" />
+    </LinearLayout>
+
 </LinearLayout>
 
 

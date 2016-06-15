@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">Droid Anime</string>
     <string name="start_eating">いただきます</string>
+    <string name="end_eating">ごちそうさま</string>
+    <string name="message_successed">おめでとう！</string>
+    <string name="message_failed">ざんねん。。。</string>
+    <string name="result_message" />
+    <string name="button_label_back">戻る</string>
 </resources>
