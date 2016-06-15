@@ -19,6 +19,7 @@ import android.text.Editable;
 import android.text.format.Formatter;
 import android.view.View;
 import android.view.ViewAnimationUtils;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
@@ -44,8 +45,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        // TODO アニメーションの初期化
-        ((LinearLayout) findViewById(R.id.container)).addView(new MyView(this));
+        // アニメーション表示のサンプル
+        // ((LinearLayout) findViewById(R.id.container)).addView(new MyView(this));
     }
 
     @Override
@@ -83,19 +84,24 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // 入力時間取得
-                //String text = ((EditText) findViewById(R.id.editText)).getText().toString();
-                //int time = Integer.parseInt(text);
-                int time = (mTimePicker.getValue() + 1) * 5;
+                int seconds = (mTimePicker.getValue() + 1) * 5 * 60;
+
+                // デバッグ用
+                // 10秒で通知するよう設定
+                CheckBox checkBox = (CheckBox) findViewById(R.id.debugCheckBox);
+                if (checkBox.isChecked()) {
+                    seconds = 10;
+                }
 
                 // タイマー開始
-                mTimer = new AppCountDownTimer(time * 60 * 1000, 60 * 1000);
+                mTimer = new AppCountDownTimer(seconds * 1000, 1000);
                 mTimer.start();
 
                 // メニュー画面に戻す
                 moveTaskToBack(true);
 
                 // トースト表示
-                String message = getString(R.string.messageStarted, time);
+                String message = getString(R.string.messageStarted, seconds / 60);
                 Toast.makeText(self, message, Toast.LENGTH_LONG).show();
 
                 // ボタン更新
@@ -104,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
                 mTimePicker.setEnabled(false);
 
                 // メッセージ更新
-                mStatusMessage.setText(getResources().getString(R.string.statusStarted, time));
+                mStatusMessage.setText(getResources().getString(R.string.statusStarted, seconds));
             }
         });
 

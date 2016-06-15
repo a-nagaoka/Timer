@@ -8,7 +8,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <!--
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -16,27 +16,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".AlertDialogActivity"
-            android:launchMode="singleInstance"
-            android:theme="@style/Translucent"></activity>
-
-        <service android:name=".TimerIntentService" />
-        <service android:name=".ShowMainIntentService" />
-
-        <receiver android:name=".TimerReceiver">
-            <intent-filter>
-                <action android:name="TIMER_FINISHED" />
-            </intent-filter>
-        </receiver>
-        -->
 
         <activity android:name=".NoticeActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 
