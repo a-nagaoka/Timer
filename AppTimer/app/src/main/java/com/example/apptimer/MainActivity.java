@@ -6,18 +6,24 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.graphics.drawable.DrawableWrapper;
 import android.text.Editable;
 import android.text.format.Formatter;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ViewAnimator;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        // TODO アニメーションの初期化
+        ((LinearLayout) findViewById(R.id.container)).addView(new MyView(this));
     }
 
     @Override
@@ -46,10 +54,6 @@ public class MainActivity extends AppCompatActivity {
 
         // ボタン・テキストの初期化
         initialize();
-
-        // TODO アニメーションの初期化
-        ViewAnimator viewAnimator = (ViewAnimator) findViewById(R.id.viewAnimator);
-
     }
 
     @Override
@@ -193,6 +197,38 @@ public class MainActivity extends AppCompatActivity {
             } catch (PendingIntent.CanceledException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    private class MyView extends View {
+
+        ValueAnimator anim;
+
+        public MyView(Context context) {
+            super(context);
+
+            anim = ValueAnimator.ofFloat(0.f, 100.f);
+            // アニメーションの時間(3秒)を設定する
+            anim.setDuration(3000);
+            anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    invalidate();
+                }
+            });
+            anim.start();
+        }
+
+        @Override
+        protected void onDraw(Canvas canvas) {
+            // 赤い背景
+            canvas.drawColor(Color.WHITE);
+
+            // だんだん大きくなる緑の円を書くよ
+            float radius = (Float) (anim.getAnimatedValue());
+            Paint p = new Paint();
+            p.setColor(Color.GREEN);
+            canvas.drawCircle(getWidth()/2, getHeight()/2, radius, p);
         }
     }
 }
