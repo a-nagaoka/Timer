@@ -38,7 +38,7 @@ public class FinishMealActivity extends AppCompatActivity {
         // 効果音を読み込んでおく
         soundPool = new SoundPool(2, AudioManager.STREAM_MUSIC, 0);
         soundResId[0] = soundPool.load(this, R.raw.muci_hono_04, 1);
-        soundResId[1] = soundPool.load(this, R.raw.moon, 1);
+        soundResId[1] = soundPool.load(this, R.raw.muci_hono_01, 1);
 
         // 前画面からの結果をラベルに表示する。
         Intent intent = getIntent();

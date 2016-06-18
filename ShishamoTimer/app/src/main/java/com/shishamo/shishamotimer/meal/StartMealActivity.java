@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.NumberPicker;
 
@@ -120,6 +121,12 @@ public class StartMealActivity extends AppCompatActivity  {
 
         // 入力時間取得
         int seconds = (mTimePicker.getValue() + 1) * 5 * 60 * 1000;
+        // デバッグ用
+        // 30秒で通知するよう設定
+        CheckBox checkBox = (CheckBox) findViewById(R.id.chkDebug);
+        if (checkBox.isChecked()) {
+            seconds = 30 * 1000;
+        }
 
         // ごはん画像の数にあわせてTickerを計算
         int tickTime = seconds / foods.size();
