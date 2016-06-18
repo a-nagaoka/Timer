@@ -2,4 +2,6 @@
     <string name="app_name">ShishamoTimer</string>
     <string name="main_menu_button_mealtimer">お食事タイマー</string>
     <string name="main_menu_button_apptimer">アプリタイマー</string>
+    <string name="meal_timer_description">お食事タイマーです。\nTODO 説明</string>
+    <string name="app_timer_description">アプリのタイマーです。\nTODO 説明</string>
 </resources>
