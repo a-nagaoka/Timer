@@ -44,7 +44,7 @@ public class EatingCountDownTimer extends CountDownTimer {
         ObjectAnimator alpha = ObjectAnimator.ofFloat(img, "alpha", 1f, 0f);
         alpha.setDuration(5000);
         alpha.start();
-        ((StartMealActivity)context).playSound();
+        ((StartMealActivity)context).playKirakira();
     }
 
     /**

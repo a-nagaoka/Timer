@@ -1,8 +1,6 @@
 package com.shishamo.shishamotimer.meal;
 
 import android.content.Intent;
-import android.media.AudioManager;
-import android.media.SoundPool;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -28,9 +26,8 @@ public class StartMealActivity extends AppCompatActivity  {
     // タイマー
     private EatingCountDownTimer mEatingTimer = null;
     private int counter = -1;
-    // 効果音
-    SoundPool mSoundPool = null;
-    int mSoundResId = -1;
+    // 効果音再生
+    private MealSoundPlayer player;
 
     /**
      * 起動時のイベント処理
@@ -40,6 +37,10 @@ public class StartMealActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_meal);
+
+        // 効果音の準備をします。
+        player = MealSoundPlayer.getInstance();
+        player.loadSound(getApplicationContext());
 
         // ドラッグする画像にリスナー登録
         setTouchImageListener();
@@ -58,8 +59,6 @@ public class StartMealActivity extends AppCompatActivity  {
     @Override
     protected void onResume() {
         super.onResume();
-        // 効果音を読み込んでおく
-        setSoundPool();
     }
     /**
      * ビューにタッチイベントのリスナーを登録します。
@@ -100,7 +99,6 @@ public class StartMealActivity extends AppCompatActivity  {
     @Override
     protected void onPause() {
         super.onPause();
-        unsetSoundPool();
     }
 
     /**
@@ -114,7 +112,7 @@ public class StartMealActivity extends AppCompatActivity  {
             mEatingTimer.cancel();
             mEatingTimer = null;
         }
-        unsetSoundPool();
+        player.unloadSounds();
     }
 
     /**
@@ -171,34 +169,9 @@ public class StartMealActivity extends AppCompatActivity  {
     }
 
     /**
-     * 効果音を再生します。
+     * キラキラ効果音を再生します。
      */
-    public void playSound() {
-        if (mSoundPool == null) {
-            return;
-        }
-        // 効果音の再生
-        mSoundPool.play(mSoundResId, 1.0f, 1.0f, 0, 0, 1);
-    }
-    /**
-     * 効果音をロードする
-     */
-    private void setSoundPool() {
-        if (mSoundPool != null) {
-            return;
-        }
-        mSoundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
-        mSoundResId = mSoundPool.load(this, R.raw.ta_ta_kirarara01, 0);
-    }
-    /**
-     * 効果音をアンロードする
-     */
-    private void unsetSoundPool() {
-        if (mSoundPool == null) {
-            return;
-        }
-        mSoundPool.unload(mSoundResId);
-        mSoundPool.release();
-        mSoundPool = null;
+    public void playKirakira() {
+        player.playKirakira();
     }
 }
