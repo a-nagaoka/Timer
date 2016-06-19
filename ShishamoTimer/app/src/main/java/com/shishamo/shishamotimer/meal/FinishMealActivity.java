@@ -13,14 +13,15 @@ import com.shishamo.shishamotimer.R;
 
 public class FinishMealActivity extends AppCompatActivity {
     // 結果
-    int resultMealId;
+    private int mResultId;
 
     // 効果音の再生
-    SoundPool soundPool;
-    int[] soundResId = new int[2];
+    private SoundPool mSoundPool;
+    private int mSoundResId = -1;
+    private boolean mSoundReady = false;
 
     /**
-     *
+     * アプリ起動イベント
      * @param savedInstanceState
      */
     @Override
@@ -30,44 +31,83 @@ public class FinishMealActivity extends AppCompatActivity {
     }
 
     /**
-     * アクティビティが画面に表示されたときのイベント処理
+     * アプリ開始イベント
+     */
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        // 効果音をプールする
+        setSoundPool();
+    }
+    /**
+     * 最前面表示のイベント
      */
     @Override
     protected void onResume() {
         super.onResume();
-        // 効果音を読み込んでおく
-        soundPool = new SoundPool(2, AudioManager.STREAM_MUSIC, 0);
-        soundResId[0] = soundPool.load(this, R.raw.muci_hono_04, 1);
-        soundResId[1] = soundPool.load(this, R.raw.muci_hono_01, 1);
+        setSoundPool();
 
-        // 前画面からの結果をラベルに表示する。
+        // 前画面からの結果を取得
         Intent intent = getIntent();
-        resultMealId = intent.getIntExtra("MESSAGE",0);
+        mResultId = intent.getIntExtra("MESSAGE",0);
 
+        // 結果テキストを表示
         TextView message = (TextView)findViewById(R.id.resultLabel);
-        if (message != null) {
-            message.setText(getResources().getString(resultMealId));
-        }
+        message.setText(getResources().getString(mResultId));
 
         // 結果にあわせたアニメーションを表示
         ImageView img = (ImageView)findViewById(R.id.imageView);
         int soundId = 0;
-        if (resultMealId == R.string.message_succeed) {
+        if (mResultId == R.string.message_succeed) {
             // 成功の場合
             // AnimationDrawableのXMLリソースを指定
             img.setBackgroundResource(R.drawable.succeed_finish_animation);
-            soundId = soundResId[0];
         }
         else {
             // 失敗した場合
             img.setBackgroundResource(R.drawable.fail_finish_animation);
-            soundId = soundResId[1];
         }
         // AnimationDrawableを取得
         AnimationDrawable frameAnimation = (AnimationDrawable) img.getBackground();
         // アニメーションの開始
         frameAnimation.start();
-        // 効果音の再生
-        soundPool.play(soundId, 1.0f, 1.0f, 0, 1, 1);
+        if (mSoundReady) {
+            mSoundPool.play(mSoundResId, 1.0f, 1.0f, 0, 1, 1.0f);
+        }
+    }
+
+    /**
+     *
+     */
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unsetSoundPool();
+    }
+
+    /**
+     * 効果音をロードする
+     */
+    private void setSoundPool() {
+        if (mSoundPool != null) {
+            return;
+        }
+        mSoundPool = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
+        mSoundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+            @Override
+            public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
+                mSoundReady = true;
+            }
+        });
+        mSoundResId = mSoundPool.load(getApplicationContext(), R.raw.muci_hono_04, 1);
+    }
+    private void unsetSoundPool() {
+        if (mSoundPool == null) {
+            return;
+        }
+        mSoundPool.unload(mSoundResId);
+        mSoundPool.release();
+        mSoundPool = null;
     }
 }

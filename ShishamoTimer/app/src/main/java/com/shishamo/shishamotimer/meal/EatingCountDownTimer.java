@@ -42,7 +42,7 @@ public class EatingCountDownTimer extends CountDownTimer {
         ImageView img = ((StartMealActivity)context).getNextFoods();
         // 順番に画像をフェードアウトしていく
         ObjectAnimator alpha = ObjectAnimator.ofFloat(img, "alpha", 1f, 0f);
-        alpha.setDuration(10000);
+        alpha.setDuration(5000);
         alpha.start();
         ((StartMealActivity)context).playSound();
     }

@@ -24,13 +24,13 @@ public class StartMealActivity extends AppCompatActivity  {
     // 使用する画像
     private List<ImageView> foods = new ArrayList<ImageView>();
     // 時間ピッカー
-    private NumberPicker mTimePicker;
+    private NumberPicker mTimePicker = null;
     // タイマー
-    private EatingCountDownTimer eatingTimer = null;
-    private int counter;
+    private EatingCountDownTimer mEatingTimer = null;
+    private int counter = -1;
     // 効果音
-    SoundPool soundPool;
-    int soundResId;
+    SoundPool mSoundPool = null;
+    int mSoundResId = -1;
 
     /**
      * 起動時のイベント処理
@@ -59,8 +59,7 @@ public class StartMealActivity extends AppCompatActivity  {
     protected void onResume() {
         super.onResume();
         // 効果音を読み込んでおく
-        soundPool = new SoundPool(2, AudioManager.STREAM_MUSIC, 0);
-        soundResId = soundPool.load(this, R.raw.ta_ta_kirarara01, 1);
+        setSoundPool();
     }
     /**
      * ビューにタッチイベントのリスナーを登録します。
@@ -96,17 +95,28 @@ public class StartMealActivity extends AppCompatActivity  {
     }
 
     /**
+     * 一時停止
+     */
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unsetSoundPool();
+    }
+
+    /**
      * アクティビティ終了
      */
     @Override
     public void finish() {
         super.finish();
 
-        if (eatingTimer != null) {
-            eatingTimer.cancel();
-            eatingTimer = null;
+        if (mEatingTimer != null) {
+            mEatingTimer.cancel();
+            mEatingTimer = null;
         }
+        unsetSoundPool();
     }
+
     /**
      * いただきますボタンタップ時のイベント処理
      * @param view
@@ -129,12 +139,11 @@ public class StartMealActivity extends AppCompatActivity  {
         }
 
         // ごはん画像の数にあわせてTickerを計算
-        int tickTime = seconds / foods.size();
+        int tickTime = seconds / foods.size() - 1 * 1000;
 
         // タイマー開始
-        eatingTimer = new EatingCountDownTimer(seconds, tickTime, this);
-        eatingTimer.start();
-        counter = -1;
+        mEatingTimer = new EatingCountDownTimer(seconds, tickTime, this);
+        mEatingTimer.start();
     }
 
     /**
@@ -143,8 +152,8 @@ public class StartMealActivity extends AppCompatActivity  {
      */
     public void onEndButtonTapped(View view) {
         // タイマーをとめる
-        eatingTimer.cancel();
-        eatingTimer = null;
+        mEatingTimer.cancel();
+        mEatingTimer = null;
 
         // 次画面へ遷移
         Intent intent = new Intent(this, FinishMealActivity.class);
@@ -165,7 +174,31 @@ public class StartMealActivity extends AppCompatActivity  {
      * 効果音を再生します。
      */
     public void playSound() {
+        if (mSoundPool == null) {
+            return;
+        }
         // 効果音の再生
-        soundPool.play(soundResId, 1.0f, 1.0f, 0, 0, 1);
+        mSoundPool.play(mSoundResId, 1.0f, 1.0f, 0, 0, 1);
+    }
+    /**
+     * 効果音をロードする
+     */
+    private void setSoundPool() {
+        if (mSoundPool != null) {
+            return;
+        }
+        mSoundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
+        mSoundResId = mSoundPool.load(this, R.raw.ta_ta_kirarara01, 0);
+    }
+    /**
+     * 効果音をアンロードする
+     */
+    private void unsetSoundPool() {
+        if (mSoundPool == null) {
+            return;
+        }
+        mSoundPool.unload(mSoundResId);
+        mSoundPool.release();
+        mSoundPool = null;
     }
 }
