@@ -26,7 +26,8 @@
                 android:scaleType="fitXY"
                 android:adjustViewBounds="true"
                 android:src="@drawable/meal_icon"
-                android:layout_column="0" />
+                android:layout_column="0"
+                android:onClick="onMealButtonTapped" />
 
             <TextView
                 android:text="@string/meal_timer_description"
