@@ -1,9 +1,8 @@
-package com.example.yoshizawa.stamp2application;
+package com.example.yoshizawa.stampapplication;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.GridView;
-import android.widget.Toast;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -23,14 +22,14 @@ public class StampActivity extends AppCompatActivity {
 
         realm = Realm.getInstance(this);
 
-        RealmResults<StampCard> stampCards = realm.where(StampCard.class).findAll();
+        long stampCnt = realm.where(StampCard.class).count();
 
         long nextId = 1L;
         realm.beginTransaction();
-        stampCards = realm.where(StampCard.class).findAll();
+
         // 20個が最大
-        if(stampCards.size() > 19) {
-            stampCards.clear();
+        if(stampCnt > 19) {
+            realm.where(StampCard.class).findAll().clear();
         }
         StampCard stamp = realm.createObject(StampCard.class);
         Number maxId = realm.where(StampCard.class).max("id");
@@ -42,18 +41,24 @@ public class StampActivity extends AppCompatActivity {
         stamp.setInStamp(1);
         realm.commitTransaction();
 
-        stampCards = realm.where(StampCard.class).findAll();
+        RealmResults<StampCard> stampCards = realm.where(StampCard.class).findAll();
 
         StampAdapter stampAdapter = new StampAdapter(this,stampCards,true);
         mGridView.setAdapter(stampAdapter);
 
         if(stampCards.size() == 10){
-            Toast.makeText(this,"10個貯まりました！",Toast.LENGTH_SHORT).show();
+            callAlert("10個たまったね！もうすこし！");
         }
         if(stampCards.size() == 20){
-            Toast.makeText(this,"おめでとう！20個たまったね！",Toast.LENGTH_SHORT).show();
+            callAlert("20個たまったね！おめでとう！");
         }
 
+    }
+
+    private void callAlert(String msg) {
+        CustomDialog customDialog = new CustomDialog();
+        customDialog.setMessage(msg);
+        customDialog.show(getFragmentManager(),"カスタム");
     }
 
 }

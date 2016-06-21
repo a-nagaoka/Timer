@@ -1,4 +1,4 @@
-package com.example.yoshizawa.stamp2application;
+package com.example.yoshizawa.stampapplication;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

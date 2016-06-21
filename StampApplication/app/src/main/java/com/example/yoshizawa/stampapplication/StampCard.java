@@ -1,4 +1,4 @@
-package com.example.yoshizawa.stamp2application;
+package com.example.yoshizawa.stampapplication;
 
 import io.realm.RealmObject;
 
