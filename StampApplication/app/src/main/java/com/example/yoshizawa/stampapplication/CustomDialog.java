@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 ;
@@ -34,6 +35,9 @@ public class CustomDialog extends DialogFragment {
 
         TextView titleView = (TextView) dialog.findViewById(R.id.title);
         titleView.setText("ドロイドくんより");
+
+        ImageView imageView = (ImageView) dialog.findViewById(R.id.imageView);
+        imageView.setImageResource(R.drawable.cake);
 
         TextView messageView = (TextView) dialog.findViewById(R.id.message);
         messageView.setText(this.message);
