@@ -39,11 +39,11 @@ public class CustomDialog extends DialogFragment {
         titleView.setText("ドロイドくんより");
 
         ImageView imageView = (ImageView) dialog.findViewById(R.id.imageView);
-        imageView.setImageResource(R.drawable.donut);
-//        imageView.setImageResource(imageUrl);
+        imageView.setImageResource(imageUrl);
 
         TextView messageView = (TextView) dialog.findViewById(R.id.message);
         messageView.setText(this.message);
+        messageView.setTextSize(18.0f);
 
         // OK ボタンのリスナ
         dialog.findViewById(R.id.positive_button).setOnClickListener(new View.OnClickListener() {

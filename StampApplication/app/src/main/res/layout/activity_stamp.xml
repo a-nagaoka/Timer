@@ -16,12 +16,4 @@
         android:layout_height="wrap_content"
         android:numColumns="4" />
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/happyView"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight="0.18"
-        android:layout_marginTop="50dp" />
-
 </LinearLayout>

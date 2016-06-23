@@ -36,7 +36,6 @@ import io.realm.RealmResults;
 
         viewHolder.imageView.setImageResource(R.drawable.good3);
 
-
         return convertView;
     }
 }
