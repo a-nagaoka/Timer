@@ -15,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void onStampButtonTapped(View view){
         Intent intent = new Intent(this,StampActivity.class);
+        intent.putExtra("ID",view.getId());
         startActivity(intent);
     }
 }

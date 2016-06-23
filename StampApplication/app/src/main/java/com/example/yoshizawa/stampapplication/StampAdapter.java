@@ -34,7 +34,6 @@ import io.realm.RealmResults;
             viewHolder = (ViewHolder)convertView.getTag();
         }
 
-        StampCard stampCard = realmResults.get(position);
         viewHolder.imageView.setImageResource(R.drawable.good3);
 
 

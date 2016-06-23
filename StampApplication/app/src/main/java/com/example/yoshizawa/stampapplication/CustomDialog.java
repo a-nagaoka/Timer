@@ -21,6 +21,8 @@ public class CustomDialog extends DialogFragment {
 
     private  String message;
 
+    private int imageUrl;
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
@@ -37,7 +39,8 @@ public class CustomDialog extends DialogFragment {
         titleView.setText("ドロイドくんより");
 
         ImageView imageView = (ImageView) dialog.findViewById(R.id.imageView);
-        imageView.setImageResource(R.drawable.cake);
+        imageView.setImageResource(R.drawable.donut);
+//        imageView.setImageResource(imageUrl);
 
         TextView messageView = (TextView) dialog.findViewById(R.id.message);
         messageView.setText(this.message);
@@ -63,5 +66,9 @@ public class CustomDialog extends DialogFragment {
      public void setMessage(String msg){
         this.message = msg;
 
+    }
+
+    public void setImage(int url){
+        this.imageUrl = url;
     }
 }

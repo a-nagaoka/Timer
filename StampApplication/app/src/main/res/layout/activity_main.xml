@@ -7,7 +7,17 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.yoshizawa.stampapplication.MainActivity">
+    tools:context=".MainActivity">
+
+    <EditText
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:id="@+id/inputId"
+        android:inputType="number"
+        android:layout_above="@+id/button"
+        android:layout_alignLeft="@+id/button"
+        android:layout_alignStart="@+id/button"
+        android:layout_marginBottom="65dp" />
 
     <Button
         android:layout_width="wrap_content"
@@ -17,4 +27,5 @@
         android:onClick="onStampButtonTapped"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
+
 </RelativeLayout>
