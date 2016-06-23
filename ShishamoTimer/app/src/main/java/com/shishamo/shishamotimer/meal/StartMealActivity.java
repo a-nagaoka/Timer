@@ -13,6 +13,7 @@ import android.widget.NumberPicker;
 import com.shishamo.shishamotimer.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -64,12 +65,17 @@ public class StartMealActivity extends AppCompatActivity  {
      * ビューにタッチイベントのリスナーを登録します。
      */
     private void setTouchImageListener() {
+        // 食べ物画像を5種類設定
         foods.add((ImageView) findViewById(R.id.rice));
         foods.add((ImageView) findViewById(R.id.miso_soup));
         foods.add((ImageView) findViewById(R.id.friedchicken));
         foods.add((ImageView) findViewById(R.id.gomaae));
         foods.add((ImageView) findViewById(R.id.green_salada));
+        // 順番をシャッフルする
+        Collections.shuffle(foods);
+
         for (ImageView dragView : foods) {
+            // タッチイベントを登録
             DragViewListener listener = new DragViewListener(dragView);
             dragView.setOnTouchListener(listener);
         }
@@ -127,17 +133,17 @@ public class StartMealActivity extends AppCompatActivity  {
         Button btnE = (Button)this.findViewById(R.id.btnEnd);
         btnE.setEnabled(true);
 
-        // 入力時間取得
-        int seconds = (mTimePicker.getValue() + 1) * 5 * 60 * 1000;
-        // デバッグ用
-        // 30秒で通知するよう設定
-        CheckBox checkBox = (CheckBox) findViewById(R.id.chkDebug);
-        if (checkBox.isChecked()) {
-            seconds = 30 * 1000;
+        // 入力時間とTicker設定（デフォルト30秒・5秒おき）
+        int seconds = 30 * 1000;
+        int tickTime = 5000;
+                CheckBox checkBox = (CheckBox) findViewById(R.id.chkDebug);
+        if (!checkBox.isChecked()) {
+            // Debugオフの場合は設定した時間
+            seconds = (mTimePicker.getValue() + 1) * 5 * 60 * 1000;
+            // ごはん画像の数にあわせてTickerを計算
+            tickTime = seconds / foods.size() - 1000;
         }
 
-        // ごはん画像の数にあわせてTickerを計算
-        int tickTime = seconds / foods.size() - 1 * 1000;
 
         // タイマー開始
         mEatingTimer = new EatingCountDownTimer(seconds, tickTime, this);
