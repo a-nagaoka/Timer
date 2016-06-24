@@ -9,14 +9,23 @@ import io.realm.RealmBaseAdapter;
 import io.realm.RealmResults;
 
 /**
- * Created by yoshizawa on 2016/06/19.
+ * スタンプをGridViewに設定するアダプター（Realm）
  */
     public class StampAdapter extends RealmBaseAdapter<StampCard> {
 
-    private static class ViewHolder{
+    /**
+     *  GridViewに設定する内容をViewHolderとして定義
+     */
+    private static class ViewHolder {
         ImageView imageView;
     }
 
+    /**
+     * コンストラクタ
+     * @param context
+     * @param realmResults
+     * @param automaticUpdate
+     */
     public StampAdapter(Context context, RealmResults<StampCard> realmResults, boolean automaticUpdate) {
         super(context, realmResults, automaticUpdate);
     }
@@ -25,6 +34,9 @@ import io.realm.RealmResults;
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder;
 
+        /**
+         * 画面が設定されていない場合
+         */
         if(convertView == null){
             convertView = inflater.inflate(R.layout.list_item, parent,false);
             viewHolder = new ViewHolder();
@@ -34,6 +46,9 @@ import io.realm.RealmResults;
             viewHolder = (ViewHolder)convertView.getTag();
         }
 
+        /**
+         * 該当データの要素分、スタンプを設定する
+         */
         viewHolder.imageView.setImageResource(R.drawable.good3);
 
         return convertView;
