@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.GridView;
 
+import java.util.Date;
+
 import io.realm.Realm;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
@@ -38,6 +40,7 @@ public class StampActivity extends AppCompatActivity {
 //        RealmConfiguration realmConfig = new RealmConfiguration.Builder(this).build();
 //        realm.deleteRealm(realmConfig);
 
+        // Realmインスタンスを生成
         realm = Realm.getInstance(this);
 
         // クエリーを作成する
@@ -51,34 +54,36 @@ public class StampActivity extends AppCompatActivity {
 
         // 20個が最大
         if(stampCnt > 19) {
-            stampCardQuery.findAll().clear();
+            clear(stampCardQuery);
         }
 
         // 新しいデータ(StampCardクラス)を作成
-        StampCard stamp = realm.createObject(StampCard.class);
+        StampCard _stampCrad = realm.createObject(StampCard.class);
         Number maxStampId = stampCardQuery.max("inStamp");
-        stamp.setId(id);
+        _stampCrad.setId(id);
         if (maxStampId == null) {
-            stamp.setInStamp(1);
+            _stampCrad.setInStamp(1);
         } else {
-            stamp.setInStamp(maxStampId.intValue() + 1);
+            _stampCrad.setInStamp(maxStampId.intValue() + 1);
         }
+
+        _stampCrad.setStampDate(new Date());
 
         // トランザクション終了
         realm.commitTransaction();
 
         // 表示用データ取得
-        RealmResults<StampCard> stampCards = stampCardQuery.findAll();
+        RealmResults<StampCard> _stampCards = stampCardQuery.findAll();
 
         // アダプターに設定
-        StampAdapter stampAdapter = new StampAdapter(this,stampCards,true);
+        StampAdapter stampAdapter = new StampAdapter(this,_stampCards,true);
         mGridView.setAdapter(stampAdapter);
 
         // スタンプカードの個数によりメッセージを出力
-        if(stampCards.size() == 10){
+        if(_stampCards.size() == 10){
             callAlert(MID_TYPE);
         }
-        if(stampCards.size() == 20){
+        if(_stampCards.size() == 20){
             callAlert(GOAL_TYPE);
         }
     }
@@ -93,4 +98,11 @@ public class StampActivity extends AppCompatActivity {
         customDialog.show(getFragmentManager(),"カスタム");
     }
 
+    /**
+     * テーブルデータをクリアする。
+     * @param target
+     */
+    public void clear(RealmQuery<StampCard> target){
+        target.findAll().clear();
+    }
 }

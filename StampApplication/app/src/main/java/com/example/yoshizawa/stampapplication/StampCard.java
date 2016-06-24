@@ -1,5 +1,7 @@
 package com.example.yoshizawa.stampapplication;
 
+import java.util.Date;
+
 import io.realm.RealmObject;
 
 /**
@@ -13,6 +15,9 @@ public class StampCard extends RealmObject {
 
     // スタンプ番号
     private Integer inStamp;
+
+    // スタンプ日付
+    private Date stampDate;
 
     /**
      * 識別IDを返却する
@@ -44,5 +49,21 @@ public class StampCard extends RealmObject {
      */
     public void setInStamp(Integer inStamp) {
         this.inStamp = inStamp;
+    }
+
+    /**
+     * スタンプ日付を取得する
+     * @return
+     */
+    public Date getStampDate() {
+        return stampDate;
+    }
+
+    /**
+     * スタンプ日付を設定する
+     * @param stampDate
+     */
+    public void setStampDate(Date stampDate) {
+        this.stampDate = stampDate;
     }
 }
