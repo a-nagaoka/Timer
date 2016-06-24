@@ -3,6 +3,7 @@ package com.example.yoshizawa.stampapplication;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.GridView;
 
 import java.util.Date;
@@ -36,7 +37,7 @@ public class StampActivity extends AppCompatActivity {
 
         mGridView = (GridView) findViewById(R.id.stampList);
 
-        // テーブル構造など変更があった場合のテーブル初期化
+        // テーブル構造など変更があった場合のテーブル初期化←1回だけ実行。
 //        RealmConfiguration realmConfig = new RealmConfiguration.Builder(this).build();
 //        realm.deleteRealm(realmConfig);
 
@@ -76,7 +77,7 @@ public class StampActivity extends AppCompatActivity {
         RealmResults<StampCard> _stampCards = stampCardQuery.findAll();
 
         // アダプターに設定
-        StampAdapter stampAdapter = new StampAdapter(this,_stampCards,true);
+        StampAdapter stampAdapter = new StampAdapter(this, _stampCards, true);
         mGridView.setAdapter(stampAdapter);
 
         // スタンプカードの個数によりメッセージを出力
@@ -86,6 +87,7 @@ public class StampActivity extends AppCompatActivity {
         if(_stampCards.size() == 20){
             callAlert(GOAL_TYPE);
         }
+
     }
 
     /**
@@ -104,5 +106,9 @@ public class StampActivity extends AppCompatActivity {
      */
     public void clear(RealmQuery<StampCard> target){
         target.findAll().clear();
+    }
+
+    public void onOffBtnTapped(View view){
+        finish();
     }
 }
