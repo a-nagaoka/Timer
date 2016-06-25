@@ -79,35 +79,30 @@
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:id="@+id/rice"
-            android:src="@drawable/food_gohan_hakumai"
             android:layout_gravity="left|center_vertical" />
 
         <ImageView
             android:layout_width="100dp"
             android:layout_height="91dp"
-            android:id="@+id/friedchicken"
-            android:src="@drawable/food_karaage_lemon"
+            android:id="@+id/main"
             android:layout_gravity="center" />
 
         <ImageView
             android:layout_width="100dp"
             android:layout_height="98dp"
-            android:id="@+id/miso_soup"
-            android:src="@drawable/food_omisoshiru"
+            android:id="@+id/soup"
             android:layout_gravity="right|center_vertical" />
 
         <ImageView
             android:layout_width="100dp"
             android:layout_height="97dp"
-            android:id="@+id/green_salada"
-            android:src="@drawable/food_salad"
+            android:id="@+id/salada"
             android:layout_gravity="right|top" />
 
         <ImageView
             android:layout_width="100dp"
             android:layout_height="86dp"
-            android:id="@+id/gomaae"
-            android:src="@drawable/food_hourensou_gomaae"
+            android:id="@+id/fukusai"
             android:layout_gravity="center_horizontal|top" />
     </FrameLayout>
 </LinearLayout>

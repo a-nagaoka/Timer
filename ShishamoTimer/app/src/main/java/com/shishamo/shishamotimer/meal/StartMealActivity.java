@@ -43,7 +43,8 @@ public class StartMealActivity extends AppCompatActivity  {
         player = MealSoundPlayer.getInstance();
         player.loadSound(getApplicationContext());
 
-        // ドラッグする画像にリスナー登録
+        // 食べ物画像の準備をします。
+        loadImage();
         setTouchImageListener();
 
         // タイマー時刻の初期化
@@ -61,19 +62,39 @@ public class StartMealActivity extends AppCompatActivity  {
     protected void onResume() {
         super.onResume();
     }
+    private void loadImage() {
+        FoodFactory factory = FoodFactory.getInstance();
+        // ごはん
+        ImageView img = (ImageView)findViewById(R.id.rice);
+        img.setImageResource(factory.getRice());
+        foods.add(img);
+        // 主菜
+        img = (ImageView) findViewById(R.id.main);
+        img.setImageResource(factory.getMain());
+        foods.add(img);
+
+        // 副菜
+        img = (ImageView) findViewById(R.id.fukusai);
+        img.setImageResource(factory.getFukusai());
+        foods.add(img);
+
+        // 汁物
+        img = (ImageView) findViewById(R.id.soup);
+        img.setImageResource(factory.getSoup());
+        foods.add(img);
+
+        // サラダ系
+        img = (ImageView) findViewById(R.id.salada);
+        img.setImageResource(factory.getSalada());
+        foods.add(img);
+
+        // 順番をシャッフルする
+        Collections.shuffle(foods);
+    }
     /**
      * ビューにタッチイベントのリスナーを登録します。
      */
     private void setTouchImageListener() {
-        // 食べ物画像を5種類設定
-        foods.add((ImageView) findViewById(R.id.rice));
-        foods.add((ImageView) findViewById(R.id.miso_soup));
-        foods.add((ImageView) findViewById(R.id.friedchicken));
-        foods.add((ImageView) findViewById(R.id.gomaae));
-        foods.add((ImageView) findViewById(R.id.green_salada));
-        // 順番をシャッフルする
-        Collections.shuffle(foods);
-
         for (ImageView dragView : foods) {
             // タッチイベントを登録
             DragViewListener listener = new DragViewListener(dragView);
