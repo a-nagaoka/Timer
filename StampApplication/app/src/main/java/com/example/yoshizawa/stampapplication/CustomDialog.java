@@ -1,6 +1,5 @@
 package com.example.yoshizawa.stampapplication;
 
-
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.graphics.Color;
@@ -12,14 +11,18 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-;
-
 /**
- * Created by yoshizawa on 2016/06/21.
+ * カスタムダイアログ
  */
 public class CustomDialog extends DialogFragment {
 
-    private  String message;
+    private static int MID_TYPE = 1;
+
+    private static int GOAL_TYPE = 2;
+
+    private  int message;
+
+    private int imageUrl;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -33,14 +36,18 @@ public class CustomDialog extends DialogFragment {
         // 背景を透明にする
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
+        // タイトル設定
         TextView titleView = (TextView) dialog.findViewById(R.id.title);
-        titleView.setText("ドロイドくんより");
+        titleView.setText(R.string.DOROID_FROM);
 
+        // イメージ設定
         ImageView imageView = (ImageView) dialog.findViewById(R.id.imageView);
-        imageView.setImageResource(R.drawable.cake);
+        imageView.setImageResource(imageUrl);
 
+        // メッセージ設定
         TextView messageView = (TextView) dialog.findViewById(R.id.message);
         messageView.setText(this.message);
+        messageView.setTextSize(18.0f);
 
         // OK ボタンのリスナ
         dialog.findViewById(R.id.positive_button).setOnClickListener(new View.OnClickListener() {
@@ -57,11 +64,16 @@ public class CustomDialog extends DialogFragment {
             }
         });
 
-       return dialog;
+        return dialog;
     }
 
-     public void setMessage(String msg){
-        this.message = msg;
-
+    public  void setType(int type){
+        if(type == 1){
+            this.imageUrl = R.drawable.cake;
+            this.message = R.string.MESSAGE_MID;
+        }else if(type == 2){
+            this.imageUrl = R.drawable.ginger;
+            this.message = R.string.MESSAGE_GOAL;
+        }
     }
 }

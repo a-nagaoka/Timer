@@ -1,64 +1,114 @@
 package com.example.yoshizawa.stampapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.GridView;
 
+import java.util.Date;
+
 import io.realm.Realm;
+import io.realm.RealmQuery;
 import io.realm.RealmResults;
 
+/**
+ * スタンプを保存、表示するクラス
+ */
 public class StampActivity extends AppCompatActivity {
+
+    private static int MID_TYPE = 1;
+
+    private static int GOAL_TYPE = 2;
 
     private GridView mGridView;
 
-    private  Realm realm;
+    private Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stamp);
 
+        Intent intent = getIntent();
+
+        // idが設定されない場合は1で作成←将来的には入力チェック必要
+        long id = intent.getLongExtra("ID",1);
+
         mGridView = (GridView) findViewById(R.id.stampList);
 
+        // テーブル構造など変更があった場合のテーブル初期化←1回だけ実行。
+//        RealmConfiguration realmConfig = new RealmConfiguration.Builder(this).build();
+//        realm.deleteRealm(realmConfig);
+
+        // Realmインスタンスを生成
         realm = Realm.getInstance(this);
 
-        long stampCnt = realm.where(StampCard.class).count();
+        // クエリーを作成する
+        RealmQuery<StampCard> stampCardQuery = realm.where(StampCard.class).equalTo("id",id);
 
-        long nextId = 1L;
+        // 選択されたIDのデータ件数を取得
+        long stampCnt = stampCardQuery.count();
+
+        // トランザクション開始
         realm.beginTransaction();
 
         // 20個が最大
         if(stampCnt > 19) {
-            realm.where(StampCard.class).findAll().clear();
+            clear(stampCardQuery);
         }
-        StampCard stamp = realm.createObject(StampCard.class);
-        Number maxId = realm.where(StampCard.class).max("id");
-        if (maxId == null) {
-            stamp.setId(nextId);
+
+        // 新しいデータ(StampCardクラス)を作成
+        StampCard _stampCrad = realm.createObject(StampCard.class);
+        Number maxStampId = stampCardQuery.max("inStamp");
+        _stampCrad.setId(id);
+        if (maxStampId == null) {
+            _stampCrad.setInStamp(1);
         } else {
-            stamp.setId(maxId.longValue() + 1);
+            _stampCrad.setInStamp(maxStampId.intValue() + 1);
         }
-        stamp.setInStamp(1);
+
+        _stampCrad.setStampDate(new Date());
+
+        // トランザクション終了
         realm.commitTransaction();
 
-        RealmResults<StampCard> stampCards = realm.where(StampCard.class).findAll();
+        // 表示用データ取得
+        RealmResults<StampCard> _stampCards = stampCardQuery.findAll();
 
-        StampAdapter stampAdapter = new StampAdapter(this,stampCards,true);
+        // アダプターに設定
+        StampAdapter stampAdapter = new StampAdapter(this, _stampCards, true);
         mGridView.setAdapter(stampAdapter);
 
-        if(stampCards.size() == 10){
-            callAlert("10個たまったね！もうすこし！");
+        // スタンプカードの個数によりメッセージを出力
+        if(_stampCards.size() == 10){
+            callAlert(MID_TYPE);
         }
-        if(stampCards.size() == 20){
-            callAlert("20個たまったね！おめでとう！");
+        if(_stampCards.size() == 20){
+            callAlert(GOAL_TYPE);
         }
 
     }
 
-    private void callAlert(String msg) {
+    /**
+     * カスタムダイアログ呼び出し
+     * @param type
+     */
+    private void callAlert(int type) {
         CustomDialog customDialog = new CustomDialog();
-        customDialog.setMessage(msg);
+        customDialog.setType(type);
         customDialog.show(getFragmentManager(),"カスタム");
     }
 
+    /**
+     * テーブルデータをクリアする。
+     * @param target
+     */
+    public void clear(RealmQuery<StampCard> target){
+        target.findAll().clear();
+    }
+
+    public void onOffBtnTapped(View view){
+        finish();
+    }
 }
