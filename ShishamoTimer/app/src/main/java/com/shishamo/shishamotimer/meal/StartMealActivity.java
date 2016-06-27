@@ -13,6 +13,7 @@ import android.widget.NumberPicker;
 import com.shishamo.shishamotimer.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -42,7 +43,8 @@ public class StartMealActivity extends AppCompatActivity  {
         player = MealSoundPlayer.getInstance();
         player.loadSound(getApplicationContext());
 
-        // ドラッグする画像にリスナー登録
+        // 食べ物画像の準備をします。
+        loadImage();
         setTouchImageListener();
 
         // タイマー時刻の初期化
@@ -60,16 +62,41 @@ public class StartMealActivity extends AppCompatActivity  {
     protected void onResume() {
         super.onResume();
     }
+    private void loadImage() {
+        FoodFactory factory = FoodFactory.getInstance();
+        // ごはん
+        ImageView img = (ImageView)findViewById(R.id.rice);
+        img.setImageResource(factory.getRice());
+        foods.add(img);
+        // 主菜
+        img = (ImageView) findViewById(R.id.main);
+        img.setImageResource(factory.getMain());
+        foods.add(img);
+
+        // 副菜
+        img = (ImageView) findViewById(R.id.fukusai);
+        img.setImageResource(factory.getFukusai());
+        foods.add(img);
+
+        // 汁物
+        img = (ImageView) findViewById(R.id.soup);
+        img.setImageResource(factory.getSoup());
+        foods.add(img);
+
+        // サラダ系
+        img = (ImageView) findViewById(R.id.salada);
+        img.setImageResource(factory.getSalada());
+        foods.add(img);
+
+        // 順番をシャッフルする
+        Collections.shuffle(foods);
+    }
     /**
      * ビューにタッチイベントのリスナーを登録します。
      */
     private void setTouchImageListener() {
-        foods.add((ImageView) findViewById(R.id.rice));
-        foods.add((ImageView) findViewById(R.id.miso_soup));
-        foods.add((ImageView) findViewById(R.id.friedchicken));
-        foods.add((ImageView) findViewById(R.id.gomaae));
-        foods.add((ImageView) findViewById(R.id.green_salada));
         for (ImageView dragView : foods) {
+            // タッチイベントを登録
             DragViewListener listener = new DragViewListener(dragView);
             dragView.setOnTouchListener(listener);
         }
@@ -127,17 +154,17 @@ public class StartMealActivity extends AppCompatActivity  {
         Button btnE = (Button)this.findViewById(R.id.btnEnd);
         btnE.setEnabled(true);
 
-        // 入力時間取得
-        int seconds = (mTimePicker.getValue() + 1) * 5 * 60 * 1000;
-        // デバッグ用
-        // 30秒で通知するよう設定
-        CheckBox checkBox = (CheckBox) findViewById(R.id.chkDebug);
-        if (checkBox.isChecked()) {
-            seconds = 30 * 1000;
+        // 入力時間とTicker設定（デフォルト30秒・5秒おき）
+        int seconds = 30 * 1000;
+        int tickTime = 5000;
+                CheckBox checkBox = (CheckBox) findViewById(R.id.chkDebug);
+        if (!checkBox.isChecked()) {
+            // Debugオフの場合は設定した時間
+            seconds = (mTimePicker.getValue() + 1) * 5 * 60 * 1000;
+            // ごはん画像の数にあわせてTickerを計算
+            tickTime = seconds / foods.size() - 1000;
         }
 
-        // ごはん画像の数にあわせてTickerを計算
-        int tickTime = seconds / foods.size() - 1 * 1000;
 
         // タイマー開始
         mEatingTimer = new EatingCountDownTimer(seconds, tickTime, this);

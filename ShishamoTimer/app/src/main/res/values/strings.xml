@@ -11,5 +11,5 @@
     <string name="message_failed">ごちそうさま、できなかった・・・</string>
     <string name="button_label_back">戻る</string>
     <string name="mealTimerDescription">食事時間を設定してください。</string>
-    <string name="min_for_debug">デバッグ用に1分にする</string>
+    <string name="min_for_debug">デバッグ用に30秒にする</string>
 </resources>
